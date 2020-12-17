@@ -6,3 +6,6 @@ Project 5
 project 7
   Chebsnake
   射擊遊戲
+
+12/15 p5完成
+12/18 貪吃蛇部分完成
