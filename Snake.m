@@ -9,9 +9,9 @@ classdef Snake
        
        function run(obj)
            
-           %ç•«å‡ºReady Goåœ–å½¢çš„å‡½æ•¸
+           %µe¥XReady Go¹Ï§Îªº¨ç¼Æ
            function ReadyGo(a)
-               axis([-15,15,-15,15])                                                            %ç¢ºå®šæ¯å€‹é»åº§æ¨™å¾Œç”¨plotç•«å‡ºä¾†
+               axis([-15,15,-15,15])                                                            %½T©w¨C­ÓÂI®y¼Ğ«á¥Îplotµe¥X¨Ó
                Rx=[-10,-10,-7.5,-7.5,-10,-6];
                Ry=[3,-3,3,0,0,-3];
                Ex=[-6,-6,-6,-2,-2,-2];
@@ -60,7 +60,7 @@ classdef Snake
                hold off
            end
            
-           %ç•«å‡ºGame Overåœ–å½¢çš„å‡½æ•¸
+           %µe¥XGame Over¹Ï§Îªº¨ç¼Æ
            function GameOver()
                Ax=[-2.5,-5,0,-3.75,-1.25];
                Ay=[5,0,0,2.5,2.5];
@@ -101,127 +101,149 @@ classdef Snake
                plot(Rx(1:3),Ry(1:3),'b',x1,y1-2.5,'b',x1,-y1,'b',Rx(4:6),Ry(4:6),'b')
            end
            
-           %è—‰ç”±æŒ‰å£“çš„æŒ‰éµä¿®æ”¹æ–¹å‘
+           %ÂÇ¥Ñ«öÀ£ªº«öÁä­×§ï¤è¦V
            function callback(src, event)
                switch event.Key
-                   case 'leftarrow'                                                                 %å·¦éµ
+                   case 'leftarrow'                                                                 %¥ªÁä
                        k=d;
                        if k~=2
                            d=1;
                        end
-                   case 'rightarrow'                                                                %å³éµ
+                   case 'rightarrow'                                                                %¥kÁä
                        k=d;
                        if k~=1
                            d=2;
                        end
-                   case 'uparrow'                                                                   %ä¸Šéµ
+                   case 'uparrow'                                                                   %¤WÁä
                        k=d;
                        if k~=4
                            d=3;
                        end
-                   case 'downarrow'                                                                 %ä¸‹éµ
+                   case 'downarrow'                                                                 %¤UÁä
                        k=d;
                        if k~=3
                            d=4;
                        end
-                   case 'e'                                                                         %e çµæŸéŠæˆ²
+                   case 'e'                                                                         %e µ²§ô¹CÀ¸
                        d=5;
-                   case 's'                                                                         %s æš«åœéŠæˆ²
+                   case 's'                                                                         %s ¼È°±¹CÀ¸
                        d=0;
                end
            end
            
-           N=15;                                                                                %è¨­å®šåº§æ¨™è»¸
-           x=zeros(1,5);                                                                        %x,yçš„åˆå§‹å€¼
+           N=15;                                                                                %³]©w®y¼Ğ¶b
+           N1=202;
+           x=zeros(1,5);                                                                        %x,yªºªì©l­È
            y=zeros(1,5);
-           score=0;                                                                             %åˆ†æ•¸åˆå€¼
-           check=1;                                                                             %åˆ¤å®šæ˜¯å¦åƒåˆ°è‡ªå·±
-           test=0;                                                                              %åˆ¤å®šæ˜¯å¦ç¬¬ä¸€æ¬¡é–‹å§‹
+           score=0;                                                                             %¤À¼Æªì­È
+           check=1;                                                                             %§P©w¬O§_¦Y¨ì¦Û¤v
+           test=0;                                                                              %§P©w¬O§_²Ä¤@¦¸¶}©l
            k=0;                                                                                 
-           life=5;                                                                              %ç”Ÿå‘½æ•¸é‡
-           level=1;                                                                             %ç­‰ç´š
-           d=obj.Direction;                                                                     %æ–¹å‘
-           h_fig = figure;plot(x,y,'o');axis([-N,N,-N,N]);title('ChebSnake');drawnow            %è¨­å®šä¸»è¦–çª—
-           set(h_fig, 'WindowKeyPressFcn', @callback)                                           %WindowKeyPressFcnå°æ‡‰åˆ°h_fig
-           a=randi([-N+1,N-1],[1,2]);                                                           %è¨­å®šå¾—åˆ†é»
+           life=5;                                                                              %¥Í©R¼Æ¶q
+           level=1;                                                                             %µ¥¯Å
+           d=obj.Direction;                                                                     %¤è¦V
+           h_fig = figure;plot(x,y,'o');axis([-N,N,-N,N]);title('ChebSnake');drawnow            %³]©w¥Dµøµ¡
+           set(h_fig, 'WindowKeyPressFcn', @callback)                                           %WindowKeyPressFcn¹ïÀ³¨ìh_fig
+           a=randi([-N+1,N-1],[1,2]);                                                           %³]©w±o¤ÀÂI
            plot(0,0,'g.','MarkerSize',20);hold on;plot(a(1),a(2),'r*');hold off;axis([-N,N,-N,N])
            
-           %è¿´åœˆç”¨ä¾†ä½¿è²ªåƒè›‡ä¸€ç›´ç§»å‹•
+           %°j°é¥Î¨Ó¨Ï³g¦Y³D¤@ª½²¾°Ê
            while 1
-               %åˆ¤æ–·ç¬¬ä¸€æ¬¡é–‹å§‹
+               %§PÂ_²Ä¤@¦¸¶}©l
                if d~=0&&test==0
                    ReadyGo(a)
                    test=1;
                end
                
-               text(N-5,N-1,['level : ',num2str(level)])                                        %æ¨™ç¤ºå‡ºç­‰ç´šã€ç”Ÿå‘½ä»¥åŠåˆ†æ•¸
+               text(N-5,N-1,['level : ',num2str(level)])                                        %¼Ğ¥Ü¥Xµ¥¯Å¡B¥Í©R¥H¤Î¤À¼Æ
                text(N-5,N-2,['life : ',num2str(life)])
                text(N-5,N-3,['score : ',num2str(score)])
                
-               %åˆ¤æ–·æ˜¯å¦åƒåˆ°é»
+               %§PÂ_¬O§_¦Y¨ìÂI
                if x(1)~=a(1) || y(1)~=a(2)
-                   %for è²ªåƒè›‡çš„ç§»å‹•ï¼Œåˆ©ç”¨å¾Œä¸€å€‹åº§æ¨™è®€å–å‰ä¸€å€‹åº§æ¨™
+                   %for ³g¦Y³Dªº²¾°Ê¡A§Q¥Î«á¤@­Ó®y¼ĞÅª¨ú«e¤@­Ó®y¼Ğ
                    for ii=length(x):-1:2
                        x(ii)=x(ii-1);
                        y(ii)=y(ii-1);
                    end
                    
-                   %æ”¹è®Šdæ±ºå®šæ–¹å‘
-                   if d==1                                                                  %å·¦
+                   %§ïÅÜd¨M©w¤è¦V
+                   if d==1                                                                  %¥ª
                        x(1)=x(1)-1;
-                   elseif d==2                                                              %å³
+                   elseif d==2                                                              %¥k
                        x(1)=x(1)+1;
-                   elseif d==3                                                              %ä¸Š
+                   elseif d==3                                                              %¤W
                        y(1)=y(1)+1;
-                   elseif d==4                                                              %ä¸‹
+                   elseif d==4                                                              %¤U
                        y(1)=y(1)-1;
-                   elseif d==5                                                              %çµæŸéŠæˆ²
+                   elseif d==5                                                              %µ²§ô¹CÀ¸
                        GameOver()
                        text(-4,-6,['Your score is ',num2str(score)])
                        break
                    end
                else
-                   x=[x,x(end)];                                                            %åƒåˆ°å¾—åˆ†é»å¾Œå†å°¾ç«¯å¤šåŠ ä¸€é¡†
+                   x=[x,x(end)];                                                            %¦Y¨ì±o¤ÀÂI«á¦A§Àºİ¦h¥[¤@Áû
                    y=[y,y(end)];
-                   a=randi([-N+1,N-1],[1,2]);                                               %ç”¢ç”Ÿä¸‹ä¸€å€‹å¾—åˆ†é»
-                   score=score+1;                                                           %åˆ†æ•¸åŠ ä¸€
-                   if score==5||score==10||score==15||score==20                             %åˆ†æ•¸åœ¨5,10,15,20æ™‚å¢åŠ ç­‰ç´š
-                       text(-4,14,'level up')                                               %é¡¯ç¤ºç­‰ç´šæå‡
+                   a=randi([-N+1,N-1],[1,2]);                                               %²£¥Í¤U¤@­Ó±o¤ÀÂI
+                   score=score+1;                                                           %¤À¼Æ¥[¤@
+                   if score==5||score==10||score==15||score==20                             %¤À¼Æ¦b5,10,15,20®É¼W¥[µ¥¯Å
+                       text(-4,14,'level up')                                               %Åã¥Üµ¥¯Å´£¤É
                        pause(2)
                        level=level+1;
                    end
                end
                
-               %åˆ¤å®šç§»å‹•æ™‚æ˜¯å¦åƒåˆ°è‡ªå·±
+               %§P©w²¾°Ê®É¬O§_¦Y¨ì¦Û¤v
                if d~=0 
                    for ii=2:length(x)
-                       if x(1)==x(ii)&&y(1)==y(ii)                                          %å¦‚æœé ­èˆ‡èº«é«”åº§æ¨™ç›¸åŒä»£è¡¨å’¬åˆ°
+                       if x(1)==x(ii)&&y(1)==y(ii)                                          %¦pªGÀY»P¨­Åé®y¼Ğ¬Û¦P¥Nªí«r¨ì
                            check=0;
                        end     
                    end
                end
                
-               %æ­»äº¡æ¢ä»¶ï¼šæ’åˆ°é‚Šç•Œæˆ–å’¬åˆ°è‡ªå·±èº«é«”
+               %¦º¤`±ø¥ó¡G¼²¨ìÃä¬É©Î«r¨ì¦Û¤v¨­Åé
                if abs(x(1))==N||abs(y(1))==N||check==0
-                   if life~=0                                                               %ç•¶æœ‰å‰©é¤˜ç”Ÿå‘½å€¼æ™‚ï¼Œè²ªåƒè›‡å›åˆ°åˆå§‹ä½ç½®ï¼Œé•·åº¦ä¸è®Š
+                   if life~=0                                                               %·í¦³³Ñ¾l¥Í©R­È®É¡A³g¦Y³D¦^¨ìªì©l¦ì¸m¡Aªø«×¤£ÅÜ
                        x=zeros(1,score+5);
                        y=zeros(1,score+5);
-                       life=life-1;                                                         %ç”Ÿå‘½å€¼-1_
+                       life=life-1;                                                         %¥Í©R­È-1_
                        pause(2)
                        check=1;                                                             
-                       d=0;                                                                 %å›åˆ°ä¸å‹•çš„ç‹€æ…‹
+                       d=0;                                                                 %¦^¨ì¤£°Êªºª¬ºA
                    else 
-                       GameOver()                                                           %çµæŸéŠæˆ²åœ–å‹
-                       text(-4,-6,['Your score is ',num2str(score)])                        %é¡¯ç¤ºåˆ†æ•¸
+                       GameOver()                                                           %µ²§ô¹CÀ¸¹Ï«¬
+                       text(-4,-6,['Your score is ',num2str(score)])                        %Åã¥Ü¤À¼Æ
                        break
                    end
                end
                
-               %ç•«åœ–ï¼šç•«å‡ºè›‡ä»¥åŠå¾—åˆ†é»
-               plot(x,y,'k',a(1),a(2),'r*');hold on;
+               %µe¹Ï¡Gµe¥X³D¥H¤Î±o¤ÀÂI
+               
+               %polyfit
+               P1=[];
+               P2=[];
+               for ii=1:length(x)-1
+                   cut1=linspace(x(ii),x(ii+1),N1);
+                   cut1(end)=[];
+                   cut2=linspace(y(ii),y(ii+1),N1);
+                   cut2(end)=[];
+                   P1=[P1,cut1];
+                   P2=[P2,cut2];
+               end
+               P1=[P1,x(end)];
+               P2=[P2,y(end)];
+               
+               t=linspace(0,1,(length(x)-1)*N1-(length(x)-2));
+               p1=polyfit(t,P1,15);                  
+               f2=polyval(p1,t);                       
+               p2=polyfit(t,P2,15);
+               f3=polyval(p2,t);
+   
+               plot(f2,f3,'k',a(1),a(2),'r*');hold on;
                plot(x(1),y(1),'g.',x(2:end),y(2:end),'k.','MarkerSize',20);axis([-N,N,-N,N]);title('ChebSnake');text(N-5,N-1,['level : ',num2str(level)]);text(N-5,N-2,['life : ',num2str(life)]);text(N-5,N-3,['score : ',num2str(score)]);drawnow;hold off
 
-               %ä¸åŒç­‰ç´šæš«åœæ™‚é–“ä¸åŒæœƒä½¿é€Ÿåº¦ä¸ä¸€æ¨£ï¼Œåˆ†ç‚º5å€‹ç­‰ç´š
+               %¤£¦Pµ¥¯Å¼È°±®É¶¡¤£¦P·|¨Ï³t«×¤£¤@¼Ë¡A¤À¬°5­Óµ¥¯Å
                if score<5
                    pause(0.35)
                elseif score>=5&&score<10
