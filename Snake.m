@@ -8,8 +8,10 @@ classdef Snake
        end
        
        function run(obj)
+           
+           %畫出Ready Go圖形的函數
            function ReadyGo(a)
-               axis([-15,15,-15,15])
+               axis([-15,15,-15,15])                                                            %確定每個點座標後用plot畫出來
                Rx=[-10,-10,-7.5,-7.5,-10,-6];
                Ry=[3,-3,3,0,0,-3];
                Ex=[-6,-6,-6,-2,-2,-2];
@@ -58,6 +60,7 @@ classdef Snake
                hold off
            end
            
+           %畫出Game Over圖形的函數
            function GameOver()
                Ax=[-2.5,-5,0,-3.75,-1.25];
                Ay=[5,0,0,2.5,2.5];
@@ -98,121 +101,127 @@ classdef Snake
                plot(Rx(1:3),Ry(1:3),'b',x1,y1-2.5,'b',x1,-y1,'b',Rx(4:6),Ry(4:6),'b')
            end
            
+           %藉由按壓的按鍵修改方向
            function callback(src, event)
                switch event.Key
-                   case 'leftarrow'
+                   case 'leftarrow'                                                                 %左鍵
                        k=d;
                        if k~=2
                            d=1;
                        end
-                   case 'rightarrow'
+                   case 'rightarrow'                                                                %右鍵
                        k=d;
                        if k~=1
                            d=2;
                        end
-                   case 'uparrow'
+                   case 'uparrow'                                                                   %上鍵
                        k=d;
                        if k~=4
                            d=3;
                        end
-                   case 'downarrow'
+                   case 'downarrow'                                                                 %下鍵
                        k=d;
                        if k~=3
                            d=4;
                        end
-                   case 'e'
+                   case 'e'                                                                         %e 結束遊戲
                        d=5;
-                   case 's'
+                   case 's'                                                                         %s 暫停遊戲
                        d=0;
                end
            end
            
-           %main function
-           N=15;
-           x=zeros(1,5);
+           N=15;                                                                                %設定座標軸
+           x=zeros(1,5);                                                                        %x,y的初始值
            y=zeros(1,5);
-           score=0;
-           check=1;
-           test=0;
-           k=0;
-           life=5;
-           level=1;
-           d=obj.Direction;
-           h_fig = figure;plot(x,y,'o');axis([-N,N,-N,N]);title('ChebSnake');drawnow
-           set(h_fig, 'WindowKeyPressFcn', @callback)
-           a=randi([-N+1,N-1],[1,2]);
+           score=0;                                                                             %分數初值
+           check=1;                                                                             %判定是否吃到自己
+           test=0;                                                                              %判定是否第一次開始
+           k=0;                                                                                 
+           life=5;                                                                              %生命數量
+           level=1;                                                                             %等級
+           d=obj.Direction;                                                                     %方向
+           h_fig = figure;plot(x,y,'o');axis([-N,N,-N,N]);title('ChebSnake');drawnow            %設定主視窗
+           set(h_fig, 'WindowKeyPressFcn', @callback)                                           %WindowKeyPressFcn對應到h_fig
+           a=randi([-N+1,N-1],[1,2]);                                                           %設定得分點
            plot(0,0,'g.','MarkerSize',20);hold on;plot(a(1),a(2),'r*');hold off;axis([-N,N,-N,N])
            
-           %迴圈
+           %迴圈用來使貪吃蛇一直移動
            while 1
-               %判斷開始
+               %判斷第一次開始
                if d~=0&&test==0
                    ReadyGo(a)
                    test=1;
                end
                
-               text(N-5,N-1,['level : ',num2str(level)])
+               text(N-5,N-1,['level : ',num2str(level)])                                        %標示出等級、生命以及分數
                text(N-5,N-2,['life : ',num2str(life)])
                text(N-5,N-3,['score : ',num2str(score)])
                
                %判斷是否吃到點
                if x(1)~=a(1) || y(1)~=a(2)
+                   %for 貪吃蛇的移動，利用後一個座標讀取前一個座標
                    for ii=length(x):-1:2
                        x(ii)=x(ii-1);
                        y(ii)=y(ii-1);
                    end
                    
-                   if d==1
+                   %改變d決定方向
+                   if d==1                                                                  %左
                        x(1)=x(1)-1;
-                   elseif d==2
+                   elseif d==2                                                              %右
                        x(1)=x(1)+1;
-                   elseif d==3
+                   elseif d==3                                                              %上
                        y(1)=y(1)+1;
-                   elseif d==4
+                   elseif d==4                                                              %下
                        y(1)=y(1)-1;
-                   elseif d==5
-                       disp('END')
+                   elseif d==5                                                              %結束遊戲
+                       GameOver()
+                       text(-4,-6,['Your score is ',num2str(score)])
                        break
                    end
                else
-                   x=[x,x(end)];
+                   x=[x,x(end)];                                                            %吃到得分點後再尾端多加一顆
                    y=[y,y(end)];
-                   a=randi([-N+1,N-1],[1,2]);
-                   score=score+1;
-                   if score==5||score==10||score==15||score==20
-                       text(-4,14,'level up')
+                   a=randi([-N+1,N-1],[1,2]);                                               %產生下一個得分點
+                   score=score+1;                                                           %分數加一
+                   if score==5||score==10||score==15||score==20                             %分數在5,10,15,20時增加等級
+                       text(-4,14,'level up')                                               %顯示等級提升
+                       pause(2)
                        level=level+1;
                    end
                end
                
-               %移動
+               %判定移動時是否吃到自己
                if d~=0 
                    for ii=2:length(x)
-                       if x(1)==x(ii)&&y(1)==y(ii)
+                       if x(1)==x(ii)&&y(1)==y(ii)                                          %如果頭與身體座標相同代表咬到
                            check=0;
                        end     
                    end
                end
                
-               %死亡條件
+               %死亡條件：撞到邊界或咬到自己身體
                if abs(x(1))==N||abs(y(1))==N||check==0
-                   if life~=0
+                   if life~=0                                                               %當有剩餘生命值時，貪吃蛇回到初始位置，長度不變
                        x=zeros(1,score+5);
                        y=zeros(1,score+5);
-                       life=life-1;
+                       life=life-1;                                                         %生命值-1_
                        pause(2)
-                       check=1;
-                       d=0;
+                       check=1;                                                             
+                       d=0;                                                                 %回到不動的狀態
                    else 
-                       GameOver()
-                       text(-4,-6,['Your score is ',num2str(score)])
+                       GameOver()                                                           %結束遊戲圖型
+                       text(-4,-6,['Your score is ',num2str(score)])                        %顯示分數
                        break
                    end
                end
                
-               %畫圖
+               %畫圖：畫出蛇以及得分點
                plot(x,y,'k',a(1),a(2),'r*');hold on;
                plot(x(1),y(1),'g.',x(2:end),y(2:end),'k.','MarkerSize',20);axis([-N,N,-N,N]);title('ChebSnake');text(N-5,N-1,['level : ',num2str(level)]);text(N-5,N-2,['life : ',num2str(life)]);text(N-5,N-3,['score : ',num2str(score)]);drawnow;hold off
+
+               %不同等級暫停時間不同會使速度不一樣，分為5個等級
                if score<5
                    pause(0.35)
                elseif score>=5&&score<10
