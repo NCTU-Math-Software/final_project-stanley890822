@@ -1,9 +1,4 @@
-# final_project-stanley890822
-final_project-stanley890822 created by GitHub Classroom
-
-12/25 貪吃蛇完成
-
-貪吃蛇：
+# 貪吃蛇
 
     一、如何運行程式：
         1.下載Snake.m以及P7_snakeGo.m
