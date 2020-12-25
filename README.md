@@ -2,7 +2,7 @@
 
     一、如何運行程式：
         1.下載Snake.m以及P7_snakeGo.m
-        2.運行P7_snakeGo.m
+        2.執行P7_snakGo
         
     二、遊戲流程：
     
